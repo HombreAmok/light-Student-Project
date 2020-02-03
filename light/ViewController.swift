@@ -7,52 +7,47 @@
 //
 
 import UIKit
+import AVFoundation
 
 class ViewController: UIViewController {
 
-    var ligthOn = false
-    
+    var isLightOn = false
     @IBAction func buttonPress(_ sender: UIButton) {
         
-        ligthOn = !ligthOn
+        isLightOn = !isLightOn
+        updateView() // добавили сюда после добавления отдельной   функции updateUI
+    }
+    
+    func updateView() {
+        let device = AVCaptureDevice.default(for: AVMediaType.video)
         
-        updateUI() // добавили сюда после добавления отдельной   функции updateUI
-        
-//        if ligthOn {
-//            ligthOn = !ligthOn
-//        } else {
-//            ligthOn = !ligthOn
-//        }
+        if let dev = device, dev.hasTorch {
+            view.backgroundColor = .black
+            do {
+                try dev.lockForConfiguration()
+                dev.torchMode = isLightOn ? .on : .off
+                dev.unlockForConfiguration()
+            } catch {
+                print(error) }
+        } else {
+            view.backgroundColor = isLightOn ? .white : .black // то же, что функция ниже, только тернарный оператор
 
-        
-//        if ligthOn == true
-//        {
-//            ligthOn  = false
-//        } else {
-//            ligthOn = true
-//        }
-    }
-    
-    func updateUI () { // перенесли из @IBAction func buttonPress(_ sender: UIButton)
-        
-        view.backgroundColor = ligthOn ? .white : .black // то же, что функция ниже, только тернарный оператор
-        
-//        if ligthOn {
-//            view.backgroundColor = .white
-//        } else {
-//            view.backgroundColor = UIColor.black // UIColor можно добавлять, а можно нет
-//        }
-    }
-    
-    override var prefersStatusBarHidden: Bool {
+                }
+            }
+
+    var prefersStatusBarHidden: Bool {
         return true
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        updateUI() // добавили сюда после добавления отдельной   функции updateUI
+        // Do any additional setup after loading the view, typically from a nib.
+        updateView()
     }
 
+        }
+    
 
-}
+
+
 

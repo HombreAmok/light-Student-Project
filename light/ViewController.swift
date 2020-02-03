@@ -18,11 +18,11 @@ class ViewController: UIViewController {
         
         updateUI() // добавили сюда после добавления отдельной   функции updateUI
         
-//        if ligthOn {
-//            ligthOn = !ligthOn
-//        } else {
-//            ligthOn = !ligthOn
-//        }
+        if ligthOn {
+            ligthOn = !ligthOn
+        } else {
+            ligthOn = !ligthOn
+        }
 
         
 //        if ligthOn == true
